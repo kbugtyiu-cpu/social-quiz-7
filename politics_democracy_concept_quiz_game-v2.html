@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>사회 개념 서술형 퀴즈 게임 (정치의 의미·역할, 민주주의의 의미·필요성)</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --primary-light: #eff6ff;
+      --success: #16a34a;
+      --success-light: #f0fdf4;
+      --danger: #dc2626;
+      --danger-light: #fef2f2;
+      --warning: #d97706;
+      --warning-light: #fffbeb;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 4px 10px -2px rgba(15, 23, 42, 0.04);
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 24px 16px 60px;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    header.top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      font-size: 1.15rem;
+      color: var(--text);
+    }
+
+    .brand-badge {
+      background: var(--primary);
+      color: #fff;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .stats-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .stat-pill {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    }
+
+    .stat-pill span {
+      color: var(--primary);
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+    }
+
+    .hero-title {
+      font-size: 1.7rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-desc {
+      color: var(--muted);
+      font-size: 0.98rem;
+      margin-bottom: 22px;
+    }
+
+    .mode-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .mode-box {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      background: #f8fafc;
+    }
+
+    .mode-box strong {
+      display: block;
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+      color: var(--text);
+    }
+
+    .mode-box p {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border: none;
+      border-radius: 12px;
+      padding: 12px 20px;
+      font-size: 0.96rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.12s ease, background-color 0.15s ease, opacity 0.15s ease;
+      font-family: inherit;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+    }
+
+    .btn-secondary {
+      background: #f1f5f9;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: #e2e8f0;
+    }
+
+    .btn-success {
+      background: var(--success);
+      color: #fff;
+    }
+
+    .btn-success:hover {
+      background: #15803d;
+    }
+
+    .btn-danger-outline {
+      background: var(--danger-light);
+      color: var(--danger);
+      border: 1px solid #fecaca;
+    }
+
+    .btn-danger-outline:hover {
+      background: #fee2e2;
+    }
+
+    .btn-sm {
+      padding: 8px 14px;
+      font-size: 0.86rem;
+      border-radius: 10px;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .flashcard-panel {
+      margin-top: 18px;
+      border-top: 1px dashed var(--border);
+      padding-top: 18px;
+    }
+
+    .flashcard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .flashcard {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      background: #fafcff;
+    }
+
+    .flashcard .kw {
+      display: inline-block;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      font-weight: 800;
+      font-size: 0.84rem;
+      padding: 3px 9px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+
+    .flashcard .def {
+      font-size: 0.86rem;
+      color: var(--text);
+    }
+
+    .progress-wrap {
+      margin-bottom: 18px;
+    }
+
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 10px;
+      background: #e2e8f0;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), #0ea5e9);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    .q-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .q-num {
+      font-weight: 800;
+      color: var(--primary);
+      font-size: 1rem;
+    }
+
+    .q-unit {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--muted);
+      background: #f1f5f9;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+
+    .keyword-box {
+      background: var(--primary-light);
+      border: 1px solid #bfdbfe;
+      border-radius: 12px;
+      padding: 12px 16px;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .keyword-label {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--primary-dark);
+      background: #fff;
+      padding: 3px 9px;
+      border-radius: 6px;
+      border: 1px solid #bfdbfe;
+    }
+
+    .keyword-value {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    .q-prompt {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--text);
+    }
+
+    .hint-box {
+      background: var(--warning-light);
+      border: 1px solid #fde68a;
+      color: #92400e;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 0.9rem;
+      margin-bottom: 14px;
+      display: none;
+    }
+
+    textarea.answer-input {
+      width: 100%;
+      min-height: 112px;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      font-size: 1rem;
+      font-family: inherit;
+      color: var(--text);
+      resize: vertical;
+      margin-bottom: 14px;
+      transition: border-color 0.15s ease;
+    }
+
+    textarea.answer-input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .feedback-box {
+      margin-top: 18px;
+      border-radius: 14px;
+      padding: 18px;
+      border: 1px solid var(--border);
+      display: none;
+    }
+
+    .feedback-box.correct {
+      background: var(--success-light);
+      border-color: #bbf7d0;
+    }
+
+    .feedback-box.wrong {
+      background: var(--danger-light);
+      border-color: #fecaca;
+    }
+
+    .feedback-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .feedback-box.correct .feedback-title {
+      color: var(--success);
+    }
+
+    .feedback-box.wrong .feedback-title {
+      color: var(--danger);
+    }
+
+    .chip-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 10px 0 12px;
+    }
+
+    .chip {
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+
+    .chip.matched {
+      background: #dcfce7;
+      color: #166534;
+      border: 1px solid #86efac;
+    }
+
+    .chip.missed {
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fca5a5;
+    }
+
+    .model-answer {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-top: 8px;
+      font-size: 0.94rem;
+    }
+
+    .model-answer strong {
+      display: block;
+      font-size: 0.84rem;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .score-summary {
+      text-align: center;
+      padding: 12px 0 20px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 20px;
+    }
+
+    .score-big {
+      font-size: 2.6rem;
+      font-weight: 900;
+      color: var(--primary);
+    }
+
+    .review-item {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+      background: #fafafa;
+    }
+
+    .review-item.is-wrong {
+      background: #fffafa;
+      border-color: #fecaca;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @media (max-width: 600px) {
+      .card {
+        padding: 20px 16px;
+      }
+      .hero-title {
+        font-size: 1.4rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="top-bar">
+      <div class="brand">
+        <span>사회 서술형 퀴즈 게임</span>
+        <span class="brand-badge">정치·민주주의 의미와 필요성</span>
+      </div>
+      <div class="stats-row">
+        <div class="stat-pill">점수: <span id="hud-score">0</span>점</div>
+        <div class="stat-pill">콤보: <span id="hud-combo">0</span>🔥</div>
+        <div class="stat-pill">진행: <span id="hud-progress">0 / 20</span></div>
+      </div>
+    </header>
+
+    <!-- 시작 화면 -->
+    <section id="start-screen" class="card">
+      <h1 class="hero-title">정치·민주주의의 의미와 필요성 개념 서술형 20제</h1>
+      <p class="hero-desc">
+        제시된 <strong>핵심 키워드</strong>를 보고 개념과 뜻을 직접 서술하는 게임형 퀴즈입니다.
+        정치의 의미와 역할, 민주주의의 의미와 필요성(관용, 대화와 타협, 다수결과 소수 의견 존중)을 한 번에 복습해 보세요.
+      </p>
+
+      <div class="mode-grid">
+        <div class="mode-box">
+          <strong>🔑 키워드 보고 개념 서술</strong>
+          <p>제시 키워드의 의미, 특징, 한계, 실현 방안 등을 문장으로 직접 써 보세요.</p>
+        </div>
+        <div class="mode-box">
+          <strong>✅ 핵심 키워드 자동 채점</strong>
+          <p>필수 단어 포함 여부를 분석하며, ⭕/❌ 버튼으로 직접 정답 여부를 조정할 수 있습니다.</p>
+        </div>
+        <div class="mode-box">
+          <strong>🔥 콤보 & 오답 다시 풀기</strong>
+          <p>문제가 매번 랜덤 순서로 출제되며, 연속 정답 시 콤보 보너스가 쌓이고 종료 후 틀린 문제만 다시 풀 수 있습니다.</p>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button id="btn-start" class="btn btn-primary">퀴즈 시작하기 (20문제)</button>
+        <button id="btn-toggle-cards" class="btn btn-secondary">📚 전체 개념 암기 카드 미리보기</button>
+      </div>
+
+      <div id="flashcard-panel" class="flashcard-panel hidden">
+        <strong>핵심 개념 암기 카드</strong>
+        <div id="flashcard-grid" class="flashcard-grid"></div>
+      </div>
+    </section>
+
+    <!-- 문제 풀이 화면 -->
+    <section id="quiz-screen" class="card hidden">
+      <div class="progress-wrap">
+        <div class="progress-meta">
+          <span id="progress-label">문제 1 / 20</span>
+          <span id="accuracy-label">정답률: 0%</span>
+        </div>
+        <div class="progress-track">
+          <div id="progress-fill" class="progress-fill"></div>
+        </div>
+      </div>
+
+      <div class="q-header">
+        <span id="q-number" class="q-num">제 1번 문제</span>
+        <span id="q-unit" class="q-unit">1. 고대 아테네의 민주주의</span>
+      </div>
+
+      <div class="keyword-box">
+        <span class="keyword-label">🔑 제시 키워드</span>
+        <span id="q-keyword" class="keyword-value">직접 민주주의</span>
+      </div>
+
+      <p id="q-prompt" class="q-prompt"></p>
+
+      <div id="hint-box" class="hint-box"></div>
+
+      <textarea
+        id="answer-input"
+        class="answer-input"
+        placeholder="여기에 키워드의 개념이나 핵심 내용을 서술해 보세요..."
+      ></textarea>
+
+      <div class="btn-row">
+        <button id="btn-submit" class="btn btn-primary">채점하기</button>
+        <button id="btn-hint" class="btn btn-secondary btn-sm">💡 초성 힌트 보기 (-20점)</button>
+        <button id="btn-skip" class="btn btn-secondary btn-sm">건너뛰기</button>
+      </div>
+
+      <div id="feedback-box" class="feedback-box">
+        <div class="feedback-title">
+          <span id="feedback-status">정답입니다!</span>
+          <div class="btn-row">
+            <button id="btn-mark-correct" class="btn btn-success btn-sm">⭕ 정답으로 인정</button>
+            <button id="btn-mark-wrong" class="btn btn-danger-outline btn-sm">❌ 오답으로 처리</button>
+          </div>
+        </div>
+        <div id="chip-list" class="chip-list"></div>
+        <div class="model-answer">
+          <strong>모범 답안</strong>
+          <div id="model-answer-text"></div>
+        </div>
+        <div class="btn-row" style="margin-top: 14px;">
+          <button id="btn-next" class="btn btn-primary">다음 문제 →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 결과 화면 -->
+    <section id="result-screen" class="card hidden">
+      <div class="score-summary">
+        <div style="font-size: 0.95rem; color: var(--muted); font-weight: 700; margin-bottom: 6px;">
+          퀴즈 완료! 최종 성적
+        </div>
+        <div id="final-score" class="score-big">0점</div>
+        <p id="final-summary" style="color: var(--muted); margin-top: 6px;"></p>
+      </div>
+
+      <div class="btn-row" style="margin-bottom: 20px;">
+        <button id="btn-retry-all" class="btn btn-primary">전체 20문제 다시 풀기</button>
+        <button id="btn-retry-wrong" class="btn btn-danger-outline">틀린 문제만 다시 풀기</button>
+        <button id="btn-home" class="btn btn-secondary">처음 화면으로</button>
+      </div>
+
+      <h3 style="font-size: 1.05rem; font-weight: 800; margin-bottom: 12px;">📋 문항별 채점 및 복습 노트</h3>
+      <div id="review-list"></div>
+    </section>
+  </div>
+
+  <script>
+    const MEMORY_CARDS = [
+      {
+            "kw": "넓은 의미의 정치",
+            "def": "일상생활에서 발생하는 구성원 간 대립과 갈등을 조정하여 해결해 나가는 모든 활동. (사례: 학급 회의, 아파트 주민 회의, 최저 임금 위원회의 활동 등)"
+      },
+      {
+            "kw": "좁은 의미의 정치",
+            "def": "정치권력의 획득, 유지, 행사 등 국가와 관련한 활동. (사례: 국회의 입법 활동, 대통령의 통치 행위 등)"
+      },
+      {
+            "kw": "정치의 역할(핵심 키워드)",
+            "def": "공동체의 문제 해결, 사회의 안정·질서 유지, 공동체의 발전 방향 제시"
+      },
+      {
+            "kw": "정치형태로서의 민주주의",
+            "def": "1인이나 소수에 의한 지배가 아닌 다수의 민중이 지배하는 정치 형태."
+      },
+      {
+            "kw": "생활양식으로서의 민주주의",
+            "def": "일상생활에서 발생하는 여러 가지 문제를 민주적으로 해결하는 것."
+      },
+      {
+            "kw": "일방적 의사 결정의 결과",
+            "def": "민주적 의사 결정 과정 없이 구성원들의 의견을 존중하지 않고 일방적으로 의사 결정이 이루어지면 구성원들이 그 결정에 동의하고 따르기 어렵다."
+      },
+      {
+            "kw": "민주적 생활양식",
+            "def": "관용, 대화와 타협, 다수결과 소수 의견 존중(다수결은 합의가 이루어지지 않을 때 사용하며 다수결을 따를 때도 소수의 의견을 존중한다)."
+      }
+];
+
+    const QUESTIONS = [
+      {
+            "id": 1,
+            "unit": "1. 정치의 의미",
+            "keyword": "넓은 의미의 정치",
+            "prompt": "제시된 키워드 [넓은 의미의 정치]의 뜻을 학습지 내용을 바탕으로 서술하시오.",
+            "hint": "ㅇㅅㅅㅎㅇㅅ ㅂㅅㅎㄴ ㄱㅅㅇ ㄱ ㄷㄹㄱ ㄱㄷ ㅇ ㅈㅈㅎㅇ ㅎㄱㅎ ㄴㄱㄴ ㅁㄷ ㅎㄷ",
+            "keywords": [
+                  "일상생활",
+                  "구성원 간",
+                  "대립과 갈등",
+                  "조정",
+                  "해결",
+                  "모든 활동"
+            ],
+            "answer": "일상생활에서 발생하는 구성원 간 대립과 갈등을 조정하여 해결해 나가는 모든 활동"
+      },
+      {
+            "id": 2,
+            "unit": "1. 정치의 의미",
+            "keyword": "좁은 의미의 정치",
+            "prompt": "제시된 키워드 [좁은 의미의 정치]의 뜻을 학습지 내용을 바탕으로 서술하시오.",
+            "hint": "ㅈㅊㄱㄹㅇ ㅎㄷ, ㅇㅈ, ㅎㅅ ㄷ ㄱㄱㅇ ㄱㄹㅎ ㅎㄷ",
+            "keywords": [
+                  "정치권력",
+                  "획득",
+                  "유지",
+                  "행사",
+                  "국가",
+                  "관련한 활동"
+            ],
+            "answer": "정치권력의 획득, 유지, 행사 등 국가와 관련한 활동"
+      },
+      {
+            "id": 3,
+            "unit": "1. 정치의 의미",
+            "keyword": "넓은 의미의 정치 사례",
+            "prompt": "[넓은 의미의 정치]에 해당하는 사례를 학습지 내용대로 서술하시오.",
+            "hint": "ㅎㄱ ㅎㅇ, ㅇㅍㅌ ㅈㅁ ㅎㅇ, ㅊㅈ ㅇㄱ ㅇㅇㅎㅇ ㅎㄷ ㄷ",
+            "keywords": [
+                  "학급 회의",
+                  "아파트 주민 회의",
+                  "최저 임금 위원회"
+            ],
+            "answer": "학급 회의, 아파트 주민 회의, 최저 임금 위원회의 활동 등"
+      },
+      {
+            "id": 4,
+            "unit": "1. 정치의 의미",
+            "keyword": "좁은 의미의 정치 사례",
+            "prompt": "[좁은 의미의 정치]에 해당하는 사례를 학습지 내용대로 서술하시오.",
+            "hint": "ㄱㅎㅇ ㅇㅂ ㅎㄷ, ㄷㅌㄹㅇ ㅌㅊ ㅎㅇ ㄷ",
+            "keywords": [
+                  "국회의 입법 활동",
+                  "대통령의 통치 행위"
+            ],
+            "answer": "국회의 입법 활동, 대통령의 통치 행위 등"
+      },
+      {
+            "id": 5,
+            "unit": "2. 정치의 역할",
+            "keyword": "정치의 역할 ①",
+            "prompt": "학습지에 제시된 [정치의 역할] 중 첫 번째 핵심 키워드를 서술하시오.",
+            "hint": "ㄱㄷㅊㅇ ㅁㅈ ㅎㄱ",
+            "keywords": [
+                  "공동체의 문제 해결"
+            ],
+            "answer": "공동체의 문제 해결"
+      },
+      {
+            "id": 6,
+            "unit": "2. 정치의 역할",
+            "keyword": "정치의 역할 ②",
+            "prompt": "학습지에 제시된 [정치의 역할] 중 두 번째 핵심 키워드를 서술하시오.",
+            "hint": "ㅅㅎㅇ ㅇㅈ·ㅈㅅ ㅇㅈ",
+            "keywords": [
+                  "사회의 안정·질서 유지",
+                  "사회의 안정",
+                  "질서 유지"
+            ],
+            "answer": "사회의 안정·질서 유지"
+      },
+      {
+            "id": 7,
+            "unit": "2. 정치의 역할",
+            "keyword": "정치의 역할 ③",
+            "prompt": "학습지에 제시된 [정치의 역할] 중 세 번째 핵심 키워드를 서술하시오.",
+            "hint": "ㄱㄷㅊㅇ ㅂㅈ ㅂㅎ ㅈㅅ",
+            "keywords": [
+                  "공동체의 발전 방향 제시"
+            ],
+            "answer": "공동체의 발전 방향 제시"
+      },
+      {
+            "id": 8,
+            "unit": "2. 정치의 역할",
+            "keyword": "정치의 역할 세 가지",
+            "prompt": "학습지에 제시된 [정치의 역할] 세 가지 핵심 키워드를 모두 서술하시오.",
+            "hint": "ㄱㄷㅊㅇ ㅁㅈ ㅎㄱ, ㅅㅎㅇ ㅇㅈ·ㅈㅅ ㅇㅈ, ㄱㄷㅊㅇ ㅂㅈ ㅂㅎ ㅈㅅ",
+            "keywords": [
+                  "공동체의 문제 해결",
+                  "사회의 안정",
+                  "질서 유지",
+                  "공동체의 발전 방향 제시"
+            ],
+            "answer": "공동체의 문제 해결, 사회의 안정·질서 유지, 공동체의 발전 방향 제시"
+      },
+      {
+            "id": 9,
+            "unit": "3. 민주주의의 의미",
+            "keyword": "정치형태로서의 민주주의",
+            "prompt": "제시된 키워드 [정치형태로서의 민주주의]의 뜻을 학습지 내용을 바탕으로 서술하시오.",
+            "hint": "1ㅇㅇㄴ ㅅㅅ ㅇ ㅇㅎ ㅈㅂ ㄱ ㅇㄴ ㄷㅅㅇ ㅁㅈㅇ ㅈㅂㅎㄴ ㅈㅊ ㅎㅌ",
+            "keywords": [
+                  "1인이나 소수",
+                  "지배가 아닌",
+                  "다수의 민중",
+                  "지배하는 정치 형태"
+            ],
+            "answer": "1인이나 소수에 의한 지배가 아닌 다수의 민중이 지배하는 정치 형태"
+      },
+      {
+            "id": 10,
+            "unit": "3. 민주주의의 의미",
+            "keyword": "생활양식으로서의 민주주의",
+            "prompt": "제시된 키워드 [생활양식으로서의 민주주의]의 뜻을 학습지 내용을 바탕으로 서술하시오.",
+            "hint": "ㅇㅅㅅㅎㅇㅅ ㅂㅅㅎㄴ ㅇㄹ ㄱㅈ ㅁㅈ ㄹ ㅁㅈㅈㅇㄹ ㅎㄱㅎㄴ ㄱ",
+            "keywords": [
+                  "일상생활",
+                  "여러 가지 문제",
+                  "민주적으로 해결하는 것"
+            ],
+            "answer": "일상생활에서 발생하는 여러 가지 문제를 민주적으로 해결하는 것"
+      },
+      {
+            "id": 11,
+            "unit": "3. 민주주의의 의미",
+            "keyword": "민주주의의 두 가지 의미",
+            "prompt": "학습지 3번 항목에 제시된 [민주주의의 두 가지 의미]를 모두 서술하시오.",
+            "hint": "ㅈㅊㅎㅌㄹㅅㅇ ㅁㅈㅈㅇ, ㅅㅎㅇㅅㄹㅅㅇ ㅁㅈㅈㅇ",
+            "keywords": [
+                  "정치형태",
+                  "생활양식",
+                  "민주주의"
+            ],
+            "answer": "정치형태로서의 민주주의, 생활양식으로서의 민주주의"
+      },
+      {
+            "id": 12,
+            "unit": "4. 민주주의의 필요성",
+            "keyword": "일방적 의사 결정의 결과",
+            "prompt": "[민주적 의사 결정 과정 없이 구성원들의 의견을 존중하지 않고 일방적으로 의사 결정이 이루어지면] 어떤 결과가 나타나는지 서술하시오.",
+            "hint": "ㄱㅅㅇㄷㅇ ㄱ ㄱㅈㅇ ㄷㅇㅎㄱ ㄸㄹㄱ ㅇㄹㄷ",
+            "keywords": [
+                  "구성원들",
+                  "그 결정",
+                  "동의하고 따르기 어렵다"
+            ],
+            "answer": "구성원들이 그 결정에 동의하고 따르기 어렵다."
+      },
+      {
+            "id": 13,
+            "unit": "4. 민주주의의 필요성",
+            "keyword": "관용",
+            "prompt": "민주적 의사 결정 과정에서 지켜야 할 민주적 생활양식 중 첫 번째 핵심 키워드를 서술하시오.",
+            "hint": "ㄱㅇ",
+            "keywords": [
+                  "관용"
+            ],
+            "answer": "관용"
+      },
+      {
+            "id": 14,
+            "unit": "4. 민주주의의 필요성",
+            "keyword": "대화와 타협",
+            "prompt": "민주적 의사 결정 과정에서 지켜야 할 민주적 생활양식 중 두 번째 핵심 키워드를 서술하시오.",
+            "hint": "ㄷㅎㅇ ㅌㅎ",
+            "keywords": [
+                  "대화와 타협"
+            ],
+            "answer": "대화와 타협"
+      },
+      {
+            "id": 15,
+            "unit": "4. 민주주의의 필요성",
+            "keyword": "다수결과 소수 의견 존중",
+            "prompt": "민주적 생활양식 중 [다수결과 소수 의견 존중]에서 다수결의 사용 시기와 따를 때의 태도를 서술하시오.",
+            "hint": "ㄷㅅㄱㅇ ㅎㅇ ㄱ ㅇㄹㅇㅈ ㅇㅇ ㄸ ㅅㅇㅎㅁ ㄷㅅㄱ ㄹ ㄸㄹ ㄸㄷ ㅅㅅㅇ ㅇㄱ ㄹ ㅈㅈㅎㄷ",
+            "keywords": [
+                  "다수결",
+                  "합의가 이루어지지 않을 때",
+                  "소수의 의견을 존중한다"
+            ],
+            "answer": "다수결은 합의가 이루어지지 않을 때 사용하며 다수결을 따를 때도 소수의 의견을 존중한다."
+      },
+      {
+            "id": 16,
+            "unit": "4. 민주주의의 필요성",
+            "keyword": "다수결 사용 시기",
+            "prompt": "제시된 키워드 [다수결]은 언제 사용하는지 학습지 내용을 바탕으로 서술하시오.",
+            "hint": "ㅎㅇ ㄱ ㅇㄹㅇㅈ ㅇㅇ ㄸ ㅅㅇㅎㅁ",
+            "keywords": [
+                  "합의가 이루어지지 않을 때",
+                  "사용함"
+            ],
+            "answer": "합의가 이루어지지 않을 때 사용함."
+      },
+      {
+            "id": 17,
+            "unit": "4. 민주주의의 필요성",
+            "keyword": "다수결을 따를 때의 태도",
+            "prompt": "제시된 키워드 [다수결을 따를 때] 지켜야 할 태도를 학습지 내용을 바탕으로 서술하시오.",
+            "hint": "ㅅㅅㅇ ㅇㄱ ㄹ ㅈㅈㅎㄷ",
+            "keywords": [
+                  "소수의 의견",
+                  "존중한다"
+            ],
+            "answer": "소수의 의견을 존중한다."
+      },
+      {
+            "id": 18,
+            "unit": "4. 민주주의의 필요성",
+            "keyword": "민주적 생활양식 세 가지",
+            "prompt": "민주적 의사 결정 과정에서 지켜야 할 [민주적 생활양식] 세 가지를 모두 서술하시오.",
+            "hint": "ㄱㅇ, ㄷㅎㅇ ㅌㅎ, ㄷㅅㄱㄱ ㅅㅅ ㅇㄱ ㅈㅈ",
+            "keywords": [
+                  "관용",
+                  "대화와 타협",
+                  "다수결과 소수 의견 존중"
+            ],
+            "answer": "관용, 대화와 타협, 다수결과 소수 의견 존중"
+      },
+      {
+            "id": 19,
+            "unit": "1. 정치의 의미 (사례 적용)",
+            "keyword": "급식 메뉴 순서 결정(학급 회의) vs 도로 교통법 개정안 의결(국회)",
+            "prompt": "두 사례가 각각 넓은 의미의 정치와 좁은 의미의 정치 중 어디에 해당하는지 쓰고, 그 이유를 서술하시오.",
+            "hint": "ㅎㄱ ㅎㅇ ㄴㄹ, ㄱㅎ ㅇㅂ ㅎㄷ ㅈ",
+            "keywords": [
+                  "넓은 의미의 정치",
+                  "좁은 의미의 정치",
+                  "일상생활",
+                  "국가"
+            ],
+            "answer": "급식 메뉴 순서를 정하기 위해 학급 회의를 연 것은 일상생활에서 갈등을 조정해 해결하는 활동이므로 넓은 의미의 정치이고, 국회에서 도로 교통법 개정안을 의결한 것은 국가와 관련한 활동이므로 좁은 의미의 정치이다."
+      },
+      {
+            "id": 20,
+            "unit": "1. 정치의 의미 (사례 적용)",
+            "keyword": "최저 임금 위원회의 활동",
+            "prompt": "제시된 키워드 [최저 임금 위원회의 활동]이 넓은 의미의 정치와 좁은 의미의 정치 중 어디에 해당하는지 쓰고, 그 이유를 서술하시오.",
+            "hint": "ㄴㄹ, ㅇㅅㅅㅎㅇㅅ ㅂㅅㅎㄴ ㄱㅅㅇ ㄱ ㄷㄹㄱ ㄱㄷ ㄹ ㅈㅈㅎㅇ ㅎㄱㅎ ㄴㄱㄴ ㅎㄷ",
+            "keywords": [
+                  "넓은 의미의 정치",
+                  "일상생활",
+                  "구성원 간",
+                  "대립과 갈등",
+                  "조정",
+                  "해결"
+            ],
+            "answer": "넓은 의미의 정치에 해당한다. 일상생활에서 발생하는 구성원 간 대립과 갈등을 조정하여 해결해 나가는 활동이기 때문이다."
+      }
+];
+
+    let sessionQuestions = [];
+    let currentIndex = 0;
+    let score = 0;
+    let combo = 0;
+    let hintUsedThisQ = false;
+    let results = [];
+
+    const el = {
+      startScreen: document.getElementById("start-screen"),
+      quizScreen: document.getElementById("quiz-screen"),
+      resultScreen: document.getElementById("result-screen"),
+      flashcardPanel: document.getElementById("flashcard-panel"),
+      flashcardGrid: document.getElementById("flashcard-grid"),
+      hudScore: document.getElementById("hud-score"),
+      hudCombo: document.getElementById("hud-combo"),
+      hudProgress: document.getElementById("hud-progress"),
+      progressLabel: document.getElementById("progress-label"),
+      accuracyLabel: document.getElementById("accuracy-label"),
+      progressFill: document.getElementById("progress-fill"),
+      qNumber: document.getElementById("q-number"),
+      qUnit: document.getElementById("q-unit"),
+      qKeyword: document.getElementById("q-keyword"),
+      qPrompt: document.getElementById("q-prompt"),
+      hintBox: document.getElementById("hint-box"),
+      answerInput: document.getElementById("answer-input"),
+      btnSubmit: document.getElementById("btn-submit"),
+      btnHint: document.getElementById("btn-hint"),
+      btnSkip: document.getElementById("btn-skip"),
+      feedbackBox: document.getElementById("feedback-box"),
+      feedbackStatus: document.getElementById("feedback-status"),
+      chipList: document.getElementById("chip-list"),
+      modelAnswerText: document.getElementById("model-answer-text"),
+      btnMarkCorrect: document.getElementById("btn-mark-correct"),
+      btnMarkWrong: document.getElementById("btn-mark-wrong"),
+      btnNext: document.getElementById("btn-next"),
+      finalScore: document.getElementById("final-score"),
+      finalSummary: document.getElementById("final-summary"),
+      reviewList: document.getElementById("review-list"),
+      btnRetryWrong: document.getElementById("btn-retry-wrong")
+    };
+
+    function renderFlashcards() {
+      el.flashcardGrid.innerHTML = MEMORY_CARDS.map(card => `
+        <div class="flashcard">
+          <span class="kw">${card.kw}</span>
+          <div class="def">${card.def}</div>
+        </div>
+      `).join("");
+    }
+
+    function normalizeText(str) {
+      return (str || "").toLowerCase().replace(/\s+/g, "").replace(/[.,·()\-]/g, "");
+    }
+
+    function evaluateAnswer(userText, requiredKeywords) {
+      const normUser = normalizeText(userText);
+      const matched = [];
+      const missed = [];
+
+      requiredKeywords.forEach(kw => {
+        const normKw = normalizeText(kw);
+        if (normKw && normUser.includes(normKw)) {
+          matched.push(kw);
+        } else {
+          missed.push(kw);
+        }
+      });
+
+      const ratio = requiredKeywords.length > 0 ? matched.length / requiredKeywords.length : 0;
+      const isCorrect = matched.length >= Math.ceil(requiredKeywords.length * 0.6) || ratio >= 0.6;
+      return { isCorrect, matched, missed };
+    }
+
+    function updateHud() {
+      el.hudScore.textContent = score;
+      el.hudCombo.textContent = combo;
+      const doneCount = results.length;
+      el.hudProgress.textContent = `${Math.min(currentIndex + 1, sessionQuestions.length)} / ${sessionQuestions.length}`;
+      const correctCount = results.filter(r => r.isCorrect).length;
+      const acc = doneCount > 0 ? Math.round((correctCount / doneCount) * 100) : 0;
+      el.accuracyLabel.textContent = `정답률: ${acc}%`;
+    }
+
+
+    function shuffleArray(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function startSession(questionList) {
+      sessionQuestions = shuffleArray(questionList);
+
+      currentIndex = 0;
+      score = 0;
+      combo = 0;
+      results = [];
+
+      el.startScreen.classList.add("hidden");
+      el.resultScreen.classList.add("hidden");
+      el.quizScreen.classList.remove("hidden");
+
+      loadQuestion();
+    }
+
+    function loadQuestion() {
+      const q = sessionQuestions[currentIndex];
+      hintUsedThisQ = false;
+
+      const pct = (currentIndex / sessionQuestions.length) * 100;
+      el.progressFill.style.width = `${pct}%`;
+      el.progressLabel.textContent = `문제 ${currentIndex + 1} / ${sessionQuestions.length}`;
+      el.qNumber.textContent = `제 ${currentIndex + 1}번 문제 (원문 ${q.id}번)`;
+      el.qUnit.textContent = q.unit;
+      el.qKeyword.textContent = q.keyword;
+      el.qPrompt.textContent = q.prompt;
+
+      el.hintBox.style.display = "none";
+      el.hintBox.textContent = "";
+      el.answerInput.value = "";
+      el.answerInput.disabled = false;
+      el.answerInput.focus();
+
+      el.btnSubmit.disabled = false;
+      el.btnHint.disabled = false;
+      el.btnSkip.disabled = false;
+      el.feedbackBox.style.display = "none";
+      el.feedbackBox.classList.remove("correct", "wrong");
+
+      updateHud();
+    }
+
+    function applyResult(isCorrect, matched, missed, userAnswer, skipped = false) {
+      const q = sessionQuestions[currentIndex];
+      el.answerInput.disabled = true;
+      el.btnSubmit.disabled = true;
+      el.btnHint.disabled = true;
+      el.btnSkip.disabled = true;
+
+      let earned = 0;
+      if (isCorrect) {
+        combo += 1;
+        earned = 100 + Math.min((combo - 1) * 15, 60);
+        if (hintUsedThisQ) earned = Math.max(earned - 20, 40);
+        score += earned;
+      } else {
+        combo = 0;
+      }
+
+      const record = {
+        question: q,
+        userAnswer: userAnswer || (skipped ? "(건너뜀)" : "(미입력)"),
+        isCorrect,
+        matched,
+        missed,
+        earned
+      };
+
+      if (results[currentIndex]) {
+        results[currentIndex] = record;
+      } else {
+        results.push(record);
+      }
+
+      renderFeedback(record);
+      updateHud();
+    }
+
+    function renderFeedback(record) {
+      el.feedbackBox.style.display = "block";
+      el.feedbackBox.classList.remove("correct", "wrong");
+      el.feedbackBox.classList.add(record.isCorrect ? "correct" : "wrong");
+
+      if (record.isCorrect) {
+        el.feedbackStatus.textContent = `🎉 정답입니다! (+${record.earned}점)`;
+      } else {
+        el.feedbackStatus.textContent = `📌 핵심 개념을 다시 확인해 보세요! (0점)`;
+      }
+
+      const matchedChips = record.matched.map(k => `<span class="chip matched">✔ ${k}</span>`).join("");
+      const missedChips = record.missed.map(k => `<span class="chip missed">✖ ${k}</span>`).join("");
+      el.chipList.innerHTML = matchedChips + missedChips;
+      el.modelAnswerText.textContent = record.question.answer;
+    }
+
+    function overrideCurrentResult(forceCorrect) {
+      const prev = results[currentIndex];
+      if (!prev) return;
+      if (prev.isCorrect === forceCorrect) return;
+
+      if (forceCorrect) {
+        score -= prev.earned;
+        combo += 1;
+        const earned = 100 + Math.min((combo - 1) * 15, 60);
+        score += earned;
+        results[currentIndex] = {
+          ...prev,
+          isCorrect: true,
+          matched: [...prev.question.keywords],
+          missed: [],
+          earned
+        };
+      } else {
+        score = Math.max(0, score - prev.earned);
+        combo = 0;
+        results[currentIndex] = {
+          ...prev,
+          isCorrect: false,
+          missed: prev.missed.length ? prev.missed : [...prev.question.keywords],
+          earned: 0
+        };
+      }
+
+      renderFeedback(results[currentIndex]);
+      updateHud();
+    }
+
+    function showResults() {
+      el.progressFill.style.width = "100%";
+      el.quizScreen.classList.add("hidden");
+      el.resultScreen.classList.remove("hidden");
+
+      const correctCount = results.filter(r => r.isCorrect).length;
+      const wrongCount = results.length - correctCount;
+      const acc = results.length > 0 ? Math.round((correctCount / results.length) * 100) : 0;
+
+      el.finalScore.textContent = `${score}점`;
+      el.finalSummary.textContent = `총 ${results.length}문제 중 ${correctCount}문제 정답, ${wrongCount}문제 오답 (정답률 ${acc}%)`;
+
+      el.btnRetryWrong.style.display = wrongCount > 0 ? "inline-flex" : "none";
+
+      el.reviewList.innerHTML = results.map((r, idx) => `
+        <div class="review-item ${r.isCorrect ? "" : "is-wrong"}">
+          <div style="display:flex; justify-content:space-between; gap:8px; flex-wrap:wrap; margin-bottom:6px;">
+            <strong>${idx + 1}. [${r.question.keyword}] ${r.question.prompt}</strong>
+            <span style="font-weight:800; color:${r.isCorrect ? "var(--success)" : "var(--danger)"}">
+              ${r.isCorrect ? "정답" : "오답"}
+            </span>
+          </div>
+          <div style="font-size:0.9rem; color:var(--muted); margin-bottom:4px;">
+            <strong>내 답안:</strong> ${r.userAnswer}
+          </div>
+          <div style="font-size:0.92rem; color:var(--text);">
+            <strong>모범 답안:</strong> ${r.question.answer}
+          </div>
+        </div>
+      `).join("");
+    }
+
+    document.getElementById("btn-start").addEventListener("click", () => startSession(QUESTIONS));
+    document.getElementById("btn-toggle-cards").addEventListener("click", () => {
+      el.flashcardPanel.classList.toggle("hidden");
+    });
+
+    el.btnHint.addEventListener("click", () => {
+      const q = sessionQuestions[currentIndex];
+      hintUsedThisQ = true;
+      el.hintBox.style.display = "block";
+      el.hintBox.innerHTML = `<strong>💡 초성 힌트:</strong> ${q.hint}<br><span style="font-size:0.82rem;">(필수 키워드: ${q.keywords.join(", ")})</span>`;
+    });
+
+    el.btnSubmit.addEventListener("click", () => {
+      const text = el.answerInput.value.trim();
+      if (!text) {
+        alert("답안을 입력하거나 '건너뛰기'를 눌러 주세요.");
+        return;
+      }
+      const q = sessionQuestions[currentIndex];
+      const evalRes = evaluateAnswer(text, q.keywords);
+      applyResult(evalRes.isCorrect, evalRes.matched, evalRes.missed, text, false);
+    });
+
+    el.btnSkip.addEventListener("click", () => {
+      const q = sessionQuestions[currentIndex];
+      applyResult(false, [], [...q.keywords], "", true);
+    });
+
+    el.btnMarkCorrect.addEventListener("click", () => overrideCurrentResult(true));
+    el.btnMarkWrong.addEventListener("click", () => overrideCurrentResult(false));
+
+    el.btnNext.addEventListener("click", () => {
+      if (currentIndex + 1 < sessionQuestions.length) {
+        currentIndex += 1;
+        loadQuestion();
+      } else {
+        showResults();
+      }
+    });
+
+    document.getElementById("btn-retry-all").addEventListener("click", () => startSession(QUESTIONS));
+    el.btnRetryWrong.addEventListener("click", () => {
+      const wrongQs = results.filter(r => !r.isCorrect).map(r => r.question);
+      if (wrongQs.length > 0) {
+        startSession(wrongQs);
+      }
+    });
+    document.getElementById("btn-home").addEventListener("click", () => {
+      el.resultScreen.classList.add("hidden");
+      el.startScreen.classList.remove("hidden");
+      el.hudScore.textContent = "0";
+      el.hudCombo.textContent = "0";
+      el.hudProgress.textContent = "0 / 20";
+    });
+
+    renderFlashcards();
+  </script>
+</body>
+</html>
